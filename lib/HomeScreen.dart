@@ -5,6 +5,7 @@ import 'package:nutri_calc/AddFormulaScreen.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart';
+import 'package:path_provider/path_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const id = 'homescreen';
@@ -19,24 +20,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future LoadCSV() async {
+    String csv = "";
     try {
       String data = await rootBundle.loadString('assets/data.csv');
+      List<List<dynamic>> rowsAsListOfValues =
+          const CsvToListConverter().convert(data);
       debugPrint(data);
+      rowsAsListOfValues[0].add('Random Value');
+      csv = const ListToCsvConverter().convert(rowsAsListOfValues);
     } catch (e) {
       print('Error: $e');
       rethrow;
     }
-    var input = new File('assets/data.csv');
-    var inp = new File('../assets/data.csv');
-    var k = new File('data.csv');
-    var f = await input.open();
-    /*final fields = await input
-        .transform(utf8.decoder)
-        .transform(new CsvToListConverter())
-        .toList();*/
-    List<List<dynamic>> rowsAsListOfValues =
-        const CsvToListConverter().convert('data.csv');
-    int a = 2;
+
+    Directory documents = await getApplicationDocumentsDirectory();
+    debugPrint(documents.path);
+    try {
+      File file = File('${documents.path}/data.csv');
+      await file.writeAsString(csv);
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
   }
 
   @override
