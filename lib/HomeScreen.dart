@@ -26,14 +26,14 @@ class _HomeScreenState extends State<HomeScreen> {
       List<List<dynamic>> rowsAsListOfValues =
           const CsvToListConverter().convert(data);
       debugPrint(data);
-      rowsAsListOfValues[0].add('Random Value');
-      csv = const ListToCsvConverter().convert(rowsAsListOfValues);
+      // rowsAsListOfValues[0].add('Random Value');
+      // csv = const ListToCsvConverter().convert(rowsAsListOfValues);
     } catch (e) {
       print('Error: $e');
       rethrow;
     }
 
-    Directory documents = await getApplicationDocumentsDirectory();
+    /*Directory documents = await getApplicationDocumentsDirectory();
     debugPrint(documents.path);
     try {
       File file = File('${documents.path}/data.csv');
@@ -41,6 +41,13 @@ class _HomeScreenState extends State<HomeScreen> {
     } catch (e) {
       debugPrint('Error: $e');
     }
+
+    File file = File('${documents.path}/data.csv');
+    file.readAsString().then((String text) {
+      debugPrint(text);
+    }).catchError((e) {
+      debugPrint(e);
+    });*/
   }
 
   @override
