@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'AddFormulaScreen.dart';
+import 'CalcForm.dart';
 import 'HomeScreen.dart';
 
 void main() {
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
       initialRoute: HomeScreen.id,
       routes: {
         HomeScreen.id: (context) => HomeScreen(),
-        AddFormulaScreen.id: (context) => AddFormulaScreen()
+        AddFormulaScreen.id: (context) => AddFormulaScreen(),
+        CalcForm.id: (context) => CalcForm()
       },
     );
   }
