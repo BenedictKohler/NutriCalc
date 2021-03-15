@@ -8,14 +8,25 @@ void main() {
       MaterialApp(
         title: "NutriCalc",
         home: CalcForm(),
+          theme: ThemeData(
+            // Define the default brightness and colors.
+            brightness: Brightness.dark,
+            primaryColor: Colors.lightBlue[800],
+            accentColor: Colors.cyan[600],
+
+            fontFamily: 'Georgia',
+
+            textTheme: TextTheme(
+              headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+              headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+              bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+            ),
+          )
       )
   );
 }
 
 
-// This is a stateful widget. Don't worry about how it or
-// the setState() calls work until
-// Chapter 9. For now, just focus on the Form itself.
 class CalcForm extends StatefulWidget {
   static const id = 'calcform';
   @override
@@ -23,20 +34,13 @@ class CalcForm extends StatefulWidget {
 }
 
 class _CalcForm extends State<CalcForm> {
-// A Map (aka. hash) to hold the data from the Form.
-//   final Map<String, dynamic> _searchForm = <String, dynamic>{
-//     'searchTerm': "",
-//     'searchType': SearchType.web,
-//     'safeSearchOn': true,
-//   };
+
 // The Flutter key to point to the Form
   final GlobalKey<FormState> _key = GlobalKey();
   String selectedDrink = "";
   int ageEntered;
   double quantityEntered;
-
-
-  // HashMap<String, List<double>> map;
+  String _appBarText = "NutriCalc";
 
   static var drinks = [
     "Drink 1",
@@ -48,90 +52,85 @@ class _CalcForm extends State<CalcForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(child:
-    Form(
-
-      key: _key,
-      // Make autovalidate true to validate on every keystroke. In
-      // this case we only want to validate on submit.
-      autovalidateMode: AutovalidateMode.always,
-      child: Container(
-
-        child: ListView(
-          children: <Widget>[
-            DropdownButtonFormField<String>(
-                items: dropDownItems,
-                hint: new Text("Select drink"),
-                onChanged: (String selected) {
-                  setState( () {
-                    selectedDrink = selected;
-                  });
-                },
-
-
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                  labelText: "Enter Age (yrs)"
-              ),
-              keyboardType: TextInputType.number,
-              onChanged: (String val) {
-                setState(() {
-                  ageEntered = int.parse(val);
-                });
-              },
-
-              onSaved: (String val) { },
-
-              validator: (String val) {
-
-                return null;
-              },
-            ),
-            TextFormField(
-              // initialValue: "Enter quantity",
-              decoration: InputDecoration(
-                labelText: "Enter Quantity (mL)"
-              ),
-              onChanged: (String val) {
-                setState(() {
-                  quantityEntered = double.parse(val);
-                });
-              },
-              keyboardType: TextInputType.number,
-
-              onSaved: (String val) { },
-
-              validator: (String val) {
-
-                return null;
-              },
-            ),
-
-            // Wrapping the Checkbox in a FormField so we can have an
-            // onSaved and a validator
-
-            // This is the 'Submit' button
-            RaisedButton(
-                child: const Text('Submit'),
-                onPressed: () {
-                  // Navigator.push(context,MaterialPageRoute(builder: (context) => _ProperFormState())); // ?
-                  // If every field passes validation, let them through.
-                  // Remember, this calls the validator on all fields in
-                  // the form.
-
-                  // Similarly this calls onSaved() for all fields
-
-                  // You'd save the data to a database or whatever here
-                  if (_key.currentState.validate())
-                    print('Successfully saved the state.');
-                }
-
-            )
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: new Text(_appBarText),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: 'Settings',
+            onPressed: () {
+              navigateToSettings();
+            },
+          ),
+        ],
       ),
-    ));
+      body: PageView(
+        children: <Widget>[
+          Form(
+            key: _key,
+            autovalidateMode: AutovalidateMode.always,
+            child: Container(
+              child: ListView(
+                children: <Widget>[
+                  DropdownButtonFormField<String>(
+                    items: dropDownItems,
+                    hint: new Text("Select drink"),
+                    onChanged: (String selected) {
+                      setState( () {
+                        selectedDrink = selected;
+                      });
+                    },
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: "Enter Age (yrs)"
+                    ),
+                    keyboardType: TextInputType.number,
+                    onChanged: (String val) {
+                      setState(() {
+                        ageEntered = int.parse(val);
+                      });
+                    },
+                    onSaved: (String val) { },
+                    validator: (String val) {
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                  // initialValue: "Enter quantity",
+                    decoration: InputDecoration(
+                      labelText: "Enter Quantity (mL)"
+                    ),
+                    onChanged: (String val) {
+                      setState(() {
+                        quantityEntered = double.parse(val);
+                      });
+                    },
+                    keyboardType: TextInputType.number,
+
+                    onSaved: (String val) { },
+
+                    validator: (String val) {
+                      return null;
+                    },
+                  ),
+                  RaisedButton(
+                    child: const Text('Calculate'),
+                    onPressed: () {
+                      if (_key.currentState.validate())
+                        print('Calculating...');
+                    }
+
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      )
+    );
   }
 
   // void _dropDownChanged(SearchType val) {
@@ -151,6 +150,10 @@ class _CalcForm extends State<CalcForm> {
       items.add(new DropdownMenuItem(child: new Text(drink), value: drink));
     }
     return items;
+  }
+
+  void navigateToSettings(){
+
   }
 
 }
