@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'SettingsScreen.dart';
 
 void main() {
 
@@ -153,7 +154,7 @@ class _CalcForm extends State<CalcForm> {
   }
 
   void navigateToSettings(){
-
+    Navigator.pushNamed(context, SettingsScreen.id);
   }
 
 }
