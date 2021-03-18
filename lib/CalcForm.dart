@@ -12,16 +12,7 @@ void main() {
           theme: ThemeData(
             // Define the default brightness and colors.
             brightness: Brightness.dark,
-            primaryColor: Colors.lightBlue[800],
-            accentColor: Colors.cyan[600],
-
-            fontFamily: 'Georgia',
-
-            textTheme: TextTheme(
-              headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-              headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-              bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-            ),
+            primarySwatch: Colors.red,
           )
       )
   );
@@ -41,22 +32,33 @@ class _CalcForm extends State<CalcForm> {
   String selectedDrink = "";
   int ageEntered;
   double quantityEntered;
-  String _appBarText = "NutriCalc";
 
+  String selectedSex = "";
+
+  static var sexList = [
+    "Male",
+    "Female"
+  ];
   static var drinks = [
     "Drink 1",
     "Drink 2",
     "Drink 3"
   ];
 
+  List<DropdownMenuItem<String>> sexDropDownItems = getDropDownItems(sexList);
   List<DropdownMenuItem<String>> dropDownItems = getDropDownItems(drinks);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Colors.red.shade50.withOpacity(0.9),
       appBar: AppBar(
-        title: new Text(_appBarText),
+        title: new Text("NutriCalc", style: TextStyle(
+          fontFamily: "Josefin Sans",
+        ),
+        ),
         centerTitle: true,
+        backgroundColor: Colors.red,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.settings),
@@ -75,56 +77,146 @@ class _CalcForm extends State<CalcForm> {
             child: Container(
               child: ListView(
                 children: <Widget>[
-                  DropdownButtonFormField<String>(
-                    items: dropDownItems,
-                    hint: new Text("Select drink"),
-                    onChanged: (String selected) {
-                      setState( () {
-                        selectedDrink = selected;
-                      });
-                    },
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: "Enter Age (yrs)"
+                  ListTile(
+                    // tileColor: Colors.red.withOpacity((0.1)),
+                    leading: const Icon(Icons.local_drink_rounded, color: Colors.red),
+                    title: new DropdownButtonFormField<String>(
+                      items: dropDownItems,
+                      hint: new Text("Select Drink", style: TextStyle(
+                        fontFamily: "Josefin Sans",
+                        color: Colors.red,
+                      ), ),
+                      onChanged: (String selected) {
+                        setState( () {
+                          selectedDrink = selected;
+                        });
+                      },
                     ),
-                    keyboardType: TextInputType.number,
-                    onChanged: (String val) {
-                      setState(() {
-                        ageEntered = int.parse(val);
-                      });
-                    },
-                    onSaved: (String val) { },
-                    validator: (String val) {
-                      return null;
-                    },
                   ),
-                  TextFormField(
-                  // initialValue: "Enter quantity",
-                    decoration: InputDecoration(
-                      labelText: "Enter Quantity (mL)"
+                  const Divider(
+                    height : 15.0,
+                    color: Colors.white
+                  ),
+                  const Divider(
+                    indent: 80.0,
+                    endIndent: 80.0,
+                    thickness: 1.0,
+                    height: 10.0,
+                    color: Colors.black,
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.calendar_today_sharp, color: Colors.red),
+                    title: new TextFormField(
+                      decoration: InputDecoration(
+                          labelText: "Enter Age (yrs)",
+                        labelStyle: TextStyle(
+                          fontFamily: "Josefin Sans",
+                          color: Colors.red,
+                        ),
+                      ),
+                      keyboardType: TextInputType.number,
+                      onChanged: (String val) {
+                        setState(() {
+                          ageEntered = int.parse(val);
+                        });
+                      },
+                      onSaved: (String val) { },
+                      validator: (String val) {
+                        return null;
+                      },
                     ),
-                    onChanged: (String val) {
-                      setState(() {
-                        quantityEntered = double.parse(val);
-                      });
-                    },
-                    keyboardType: TextInputType.number,
-
-                    onSaved: (String val) { },
-
-                    validator: (String val) {
-                      return null;
-                    },
                   ),
-                  RaisedButton(
-                    child: const Text('Calculate'),
+                  const Divider(
+                    height : 15.0,
+                    color : Colors.white,
+                  ),
+                  const Divider(
+                    indent: 80.0,
+                    endIndent: 80.0,
+                    thickness: 1.0,
+                    height: 10.0,
+                    color: Colors.black,
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.science_outlined, color: Colors.red),
+                    title: new TextFormField(
+                      // initialValue: "Enter quantity",
+                      decoration: InputDecoration(
+                          labelText: "Enter Quantity (mL)",
+                          labelStyle: TextStyle(
+                        fontFamily: "Josefin Sans",
+                            color: Colors.red,
+                      ),
+                      ),
+                      onChanged: (String val) {
+                        setState(() {
+                          quantityEntered = double.parse(val);
+                        });
+                      },
+                      keyboardType: TextInputType.number,
+
+                      onSaved: (String val) { },
+
+                      validator: (String val) {
+                        return null;
+                      },
+                    ),
+                  ),
+                  const Divider(
+                    height : 15.0,
+                    color: Colors.white,
+                  ),
+                  const Divider(
+                    indent: 80.0,
+                    endIndent: 80.0,
+                    thickness: 1.0,
+                    height: 10.0,
+                    color: Colors.black,
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.person_outline_outlined, color: Colors.red),
+                    title: new DropdownButtonFormField<String>(
+                      items: sexDropDownItems,
+                      hint: new Text("Select Sex", style: TextStyle(
+                        fontFamily: "Josefin Sans",
+                        color: Colors.red,
+                      ),),
+                      onChanged: (String selected) {
+                        setState( () {
+                          selectedSex = selected;
+                        });
+                      },
+                    ),
+                  ),
+                  const Divider(
+                    height : 15.0,
+                    color: Colors.white,
+                  ),
+                  const Divider(
+                    indent: 80.0,
+                    endIndent: 80.0,
+                    thickness: 1.0,
+                    height: 10.0,
+                    color: Colors.black,
+                  ),
+                  ElevatedButton(
+                    child: const Text('Calculate', style: TextStyle(
+                      fontFamily: "Josefin Sans",
+                    ),),
                     onPressed: () {
                       if (_key.currentState.validate())
                         print('Calculating...');
-                    }
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          return Colors.red; // Use the component's default.
+                        },
+                      ),
 
-                  )
+                    ),
+
+                  ),
                 ],
               ),
             ),
