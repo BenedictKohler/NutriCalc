@@ -1,4 +1,9 @@
-import 'dart:collection';
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:nutri_calc/AddFormulaScreen.dart';
+import 'package:nutri_calc/CalcForm.dart';
+import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
 import 'package:nutri_calc/DataHelper.dart';
 
@@ -34,12 +39,36 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Home')),
-      body: Center(
-        child: !_isDataLoaded
-            ? CircularProgressIndicator()
-            : Text("Data has been loaded: " + _csvData.length.toString()),
-      ),
-    );
+        appBar: AppBar(title: Text('Home')),
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                  child: Text("Load CSV"),
+                  onPressed: LoadCSV,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: RaisedButton(
+                    child: Text('Add New Formula'),
+                    onPressed: () =>
+                        Navigator.pushNamed(context, AddFormulaScreen.id),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: RaisedButton(
+                    child: Text('Calculate'),
+                    onPressed: () =>
+                        Navigator.pushNamed(context, CalcForm.id),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ));
   }
 }

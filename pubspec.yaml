@@ -24,3 +24,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/data.csv
+  fonts:
+    - family: Josefin Sans
+      fonts:
+        - asset: assets/JosefinSans-Regular.ttf
