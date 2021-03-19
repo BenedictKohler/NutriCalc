@@ -5,7 +5,7 @@ import 'package:nutri_calc/AddFormulaScreen.dart';
 import 'package:nutri_calc/CalcForm.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
-import 'package:csv/csv.dart';
+import 'package:nutri_calc/DataHelper.dart';
 
 class HomeScreen extends StatefulWidget {
   static const id = 'homescreen';
@@ -14,30 +14,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool _isDataLoaded;
+  HashMap<String, List<dynamic>> _csvData;
+  DataHelper _dataHelper;
+
   @override
-  void initState() {
+  Future<void> initState() {
     super.initState();
+    _isDataLoaded = false;
+    _dataHelper = new DataHelper();
+    loadCSV();
   }
 
-  Future LoadCSV() async {
-    try {
-      String data = await rootBundle.loadString('assets/data.csv');
-      debugPrint(data);
-    } catch (e) {
-      print('Error: $e');
-      rethrow;
-    }
-    var input = new File('assets/data.csv');
-    var inp = new File('../assets/data.csv');
-    var k = new File('data.csv');
-    var f = await input.open();
-    /*final fields = await input
-        .transform(utf8.decoder)
-        .transform(new CsvToListConverter())
-        .toList();*/
-    List<List<dynamic>> rowsAsListOfValues =
-        const CsvToListConverter().convert('data.csv');
-    int a = 2;
+  void loadCSV() async {
+    List<List<dynamic>> csvList =
+        await _dataHelper.GetDataList(); // Get list of lists of csv data
+    _csvData =
+        _dataHelper.GetDataMap(csvList); // Convert list of lists to hashmap
+    setState(() {
+      _isDataLoaded = true; // data is loaded
+    });
   }
 
   @override
