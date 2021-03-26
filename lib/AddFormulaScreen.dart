@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:nutri_calc/DataHelper.dart';
-import 'package:nutri_calc/TempScreen.dart';
+import 'package:nutri_calc/CalcForm.dart';
 
 class AddFormulaScreen extends StatefulWidget {
   static const id = 'addformulascreen';
@@ -31,6 +31,7 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
 
   @override
   void initState() {
+    //
     super.initState();
   }
 
@@ -84,7 +85,7 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
                           print("Already has drink");
                         }
                         Navigator.pushNamedAndRemoveUntil(
-                            context, TempScreen.id, (route) => false);
+                            context, CalcForm.id, (route) => false);
                       },
                     ),
                   ],

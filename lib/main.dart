@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: TempScreen.id,
+      initialRoute: CalcForm.id,
       routes: {
         HomeScreen.id: (context) => HomeScreen(),
         AddFormulaScreen.id: (context) => AddFormulaScreen(),

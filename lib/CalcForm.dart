@@ -1,6 +1,8 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
-import 'SettingsScreen.dart';
+import 'package:nutri_calc/AddFormulaScreen.dart';
+import 'package:nutri_calc/DataHelper.dart';
+import 'package:nutri_calc/SettingsScreen.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -22,17 +24,42 @@ class CalcForm extends StatefulWidget {
 class _CalcForm extends State<CalcForm> {
 // The Flutter key to point to the Form
   final GlobalKey<FormState> _key = GlobalKey();
+
+  bool _isDataLoaded;
+  HashMap<String, List<dynamic>> _csvData;
+  DataHelper _dataHelper;
+
+
   String selectedDrink = "";
   int ageEntered;
   double quantityEntered;
 
   String selectedSex = "";
 
-  static var sexList = ["Male", "Female"];
-  static var drinks = ["Drink 1", "Drink 2", "Drink 3"];
+  static var _sexList = ["Male", "Female"];
+  // static var drinks = ["Drink 1", "Drink 2", "Drink 3"];
 
-  List<DropdownMenuItem<String>> sexDropDownItems = getDropDownItems(sexList);
-  List<DropdownMenuItem<String>> dropDownItems = getDropDownItems(drinks);
+  List<DropdownMenuItem<String>> _sexDropDownItems;
+  List<DropdownMenuItem<String>> _drinkDropDownItems;
+
+  @override
+  Future<void> initState() {
+    super.initState();
+    _isDataLoaded = false;
+    _dataHelper = new DataHelper();
+    loadCSV();
+  }
+
+  void loadCSV() async {
+    List<List<dynamic>> csvList = await _dataHelper.GetDataList(); // Get list of lists of csv data
+    _csvData = _dataHelper.GetDataMap(csvList); // Convert list of lists to hashma
+    _sexDropDownItems = getDropDownItems(_sexList);
+    _drinkDropDownItems = getDropDownItems(_csvData.keys);
+
+    setState(() {
+      _isDataLoaded = true; // data is loaded
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +97,7 @@ class _CalcForm extends State<CalcForm> {
                       leading: const Icon(Icons.local_drink_rounded,
                           color: Colors.red),
                       title: new DropdownButtonFormField<String>(
-                        items: dropDownItems,
+                        items: _drinkDropDownItems,
                         hint: new Text(
                           "Select Drink",
                           style: TextStyle(
@@ -168,7 +195,7 @@ class _CalcForm extends State<CalcForm> {
                       leading: const Icon(Icons.person_outline_outlined,
                           color: Colors.red),
                       title: new DropdownButtonFormField<String>(
-                        items: sexDropDownItems,
+                        items: _sexDropDownItems,
                         hint: new Text(
                           "Select Sex",
                           style: TextStyle(
@@ -213,6 +240,30 @@ class _CalcForm extends State<CalcForm> {
                           },
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      child: Text(
+                        "Add new Formula",
+                        style: TextStyle(
+                          fontFamily: "Josefin Sans",
+                        ),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                            return Colors.red; // Use the component's default.
+                          },
+                        ),
+                      ),
+                      onPressed: () =>
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AddFormulaScreen(
+                                csvData: _csvData,
+                              ))),
                     ),
                   ],
                 ),
