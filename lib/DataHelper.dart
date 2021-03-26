@@ -21,24 +21,24 @@ class DataHelper {
       try {
         file = await file.writeAsString(data, flush: true);
       } catch (e) {}
-
-      try {
-        textData = file.readAsStringSync();
-      } catch (e) {}
-
-      List<List<dynamic>> csvData =
-          const CsvToListConverter().convert(textData);
-      return csvData;
     }
+
+    try {
+      textData = file.readAsStringSync();
+    } catch (e) {}
+
+    List<List<dynamic>> csvData = const CsvToListConverter().convert(textData);
+    return csvData;
   }
 
   // Checks to see if file on users phone has got data already
   Future<bool> IsPopulated() async {
+    //return Future.delayed(Duration(milliseconds: 20)).then((value) => false);
     if (_documents == null)
       _documents = await getApplicationDocumentsDirectory();
     File file = new File('${_documents.path}/data.csv');
     try {
-      if (await file.length() > 0) return true;
+      if (file.existsSync()) return true;
     } catch (e) {}
     return false;
   }
@@ -60,6 +60,7 @@ class DataHelper {
       _documents = await getApplicationDocumentsDirectory();
     }
     File file = new File('${_documents.path}/data.csv');
+    data.insert(0, ["Drink", "Protein", "Fat", "Salt"]);
     String csvString = const ListToCsvConverter().convert(data);
     await file.writeAsString(csvString);
   }
@@ -71,6 +72,7 @@ class DataHelper {
     }
     File file = new File('${_documents.path}/data.csv');
     List<List<dynamic>> tempList = new List<List<dynamic>>();
+    tempList.add(["Drink", "Protein", "Fat", "Salt"]);
     for (List<dynamic> vals in data.values) {
       tempList.add(vals);
     }

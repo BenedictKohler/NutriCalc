@@ -1,9 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:nutri_calc/AddFormulaScreen.dart';
 import 'package:nutri_calc/CalcForm.dart';
-import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
 import 'package:nutri_calc/DataHelper.dart';
 import 'dart:collection';
@@ -47,10 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                RaisedButton(
-                  child: Text("Load CSV"),
-                  onPressed: loadCSV,
-                ),
                 Padding(
                   padding: EdgeInsets.all(10),
                   child: RaisedButton(
@@ -61,10 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.all(10),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     child: Text('Calculate'),
-                    onPressed: () =>
-                        Navigator.pushNamed(context, CalcForm.id),
+                    onPressed: () => Navigator.pushNamed(context, CalcForm.id),
                   ),
                 ),
               ],

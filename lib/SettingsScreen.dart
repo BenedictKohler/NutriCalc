@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nutri_calc/AddFormulaScreen.dart';
 
-
 class SettingsScreen extends StatefulWidget {
   static const id = 'settingsscreen';
   @override
@@ -9,8 +8,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final _fNameController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -19,8 +16,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Settings'),
-        backgroundColor: Colors.red,),
+        appBar: AppBar(
+          title: Text('Settings'),
+          backgroundColor: Colors.red,
+        ),
         body: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -28,8 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  RaisedButton(
-                    elevation: 5,
+                  ElevatedButton(
                     child: Row(
                       children: <Widget>[
                         Padding(
@@ -42,12 +40,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Text('Add Drink'),
                       ],
                     ),
-                    onPressed: ()  {
+                    onPressed: () {
                       Navigator.pushNamed(context, AddFormulaScreen.id);
                     },
                   ),
-                  RaisedButton(
-                    elevation: 5,
+                  ElevatedButton(
                     child: Row(
                       children: <Widget>[
                         Padding(
@@ -60,12 +57,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Text('Import new CSV'),
                       ],
                     ),
-                    onPressed: ()  {
+                    onPressed: () {
                       throw new Exception("Not implemented yet");
                     },
                   ),
-                  RaisedButton(
-                    elevation: 5,
+                  ElevatedButton(
                     child: Row(
                       children: <Widget>[
                         Padding(
@@ -78,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Text('Other settings...'),
                       ],
                     ),
-                    onPressed: ()  {
+                    onPressed: () {
                       throw new Exception("Not implemented yet");
                     },
                   ),
