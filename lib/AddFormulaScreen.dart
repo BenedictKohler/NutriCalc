@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:nutri_calc/DataHelper.dart';
 import 'package:nutri_calc/CalcForm.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddFormulaScreen extends StatefulWidget {
   static const id = 'addformulascreen';
@@ -38,12 +39,13 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Add Formula')),
+        appBar: AppBar(title: Text('Add Formula'), backgroundColor: Colors.red,),
         body: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
               child: Form(
+                key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -68,7 +70,19 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
                           Text('Save Formula'),
                         ],
                       ),
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                            return Colors.red; // Use the component's default.
+                          },
+                        ),
+                      ),
                       onPressed: () async {
+                        if (_drink.text == null || _protein.text == null || _fat.text == null || _salt.text == null || _drink.text == "" || _protein.text == "" || _fat.text == "" || _salt.text == "") {
+                          Fluttertoast.showToast(msg: 'Missing element of the form',toastLength: Toast.LENGTH_SHORT);
+                          return;
+                        }
                         if (!ContainsDrink(_drink.text)) {
                           List<String> newDrink = [
                             _drink.text,

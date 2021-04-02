@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 import 'package:nutri_calc/AddFormulaScreen.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -43,6 +45,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onPressed: () {
                       Navigator.pushNamed(context, AddFormulaScreen.id);
                     },
+                    style: ButtonStyle(
+                      backgroundColor:
+                      MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          return Colors.red; // Use the component's default.
+                        },
+                      ),
+                    ),
                   ),
                   ElevatedButton(
                     child: Row(
@@ -58,30 +68,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ],
                     ),
                     onPressed: () {
-                      throw new Exception("Not implemented yet");
+                      print('here');
+                      _pickFile();
                     },
-                  ),
-                  ElevatedButton(
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        Text('Other settings...'),
-                      ],
+                    style: ButtonStyle(
+
+                      backgroundColor:
+                      MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          return Colors.red; // Use the component's default.
+                        },
+                      ),
                     ),
-                    onPressed: () {
-                      throw new Exception("Not implemented yet");
-                    },
                   ),
+
                 ],
               ),
             ),
           ],
         ));
+  }
+
+  Future<String> _pickFile() async{
+    print('here');
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+
+    if(result != null) {
+      File file = File(result.files.single.path);
+    } else {
+      return null;
+    }
+    // call data helper to update csv
   }
 }
