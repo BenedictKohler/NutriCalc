@@ -240,8 +240,19 @@ class _CalcForm extends State<CalcForm> {
                         ),
                       ),
                       onPressed: () {
-                        if (_key.currentState.validate())
-                          print('Calculating...');
+                        if (_key.currentState.validate()) {
+                          double mult = quantityEntered/_csvData[selectedDrink][1];
+                          List out = [];
+                          _csvData[selectedDrink].sublist(1).forEach((i){
+                            if (i == "N/A")
+                              out.add("N/A");
+                            else if (i*mult % 1 == 0 )
+                              out.add((i*mult).round());
+                            else
+                              out.add(i*mult);
+                          });
+                          print(out);
+                        }
                       },
                       style: ButtonStyle(
                         backgroundColor:
