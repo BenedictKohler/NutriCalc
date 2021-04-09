@@ -1,8 +1,12 @@
 import 'dart:collection';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:nutri_calc/AddFormulaScreen.dart';
 import 'package:nutri_calc/DataHelper.dart';
 import 'package:nutri_calc/SettingsScreen.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -35,6 +39,13 @@ class _CalcForm extends State<CalcForm> {
   double quantityEntered;
 
   String selectedSex = "";
+
+  String _fileName = "";
+
+  var pdf = pw.Document();
+
+  File pdfFile = null;
+
 
   static var _sexList = ["Male", "Female"];
   // static var drinks = ["Drink 1", "Drink 2", "Drink 3"];
@@ -279,6 +290,11 @@ class _CalcForm extends State<CalcForm> {
                   ],
                 ),
               ),
+            ),
+            Expanded(
+               child: Container(
+                 child: SfPdfViewer.file(pdfFile),
+               )
             )
           ],
         ));
@@ -305,5 +321,40 @@ class _CalcForm extends State<CalcForm> {
 
   void navigateToSettings() {
     Navigator.pushNamed(context, SettingsScreen.id);
+  }
+
+  Future<bool> getPDF() async {
+    _fileName = getFileName();
+    final file = File("$_fileName.pdf");
+
+    try {
+      await file.writeAsBytes(await pdf.save());
+    } catch (Exception) {
+      print("Failed to save");
+      return null;
+    }
+    pdfFile = file;
+    return true;
+  }
+
+  String getFileName() {
+    return DateTime.now().toString() + "_" + selectedDrink ?? " ";
+  }
+
+  // Future<void> buildPDF() async {
+  //   pw.Page(
+  //       pageFormat: PdfPageFormat.a4,
+  //       build: (pw.Context context) {
+  //         return pw.Center(
+  //           child: Text("test") // ?
+  //           // TODO: Build table here
+  //         ); // Center
+  //       });
+  // }
+
+  List<dynamic> calculate(String key) {
+
+
+    throw new Exception("Not Implemented");
   }
 }
