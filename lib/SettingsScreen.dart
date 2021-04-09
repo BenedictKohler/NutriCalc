@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
 import 'package:nutri_calc/AddFormulaScreen.dart';
+import 'package:nutri_calc/CalcForm.dart';
 import 'package:nutri_calc/DataHelper.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -69,14 +71,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     onPressed: () async {
                       if (await _pickFile()) {
-                        Scaffold.of(context).showSnackBar(new SnackBar(
-                            content: new Text("Import successful")));
-                        print("Succesful import");
+                        Fluttertoast.showToast(
+                                msg: "Successfully imported CSV",
+                                toastLength: Toast.LENGTH_SHORT)
+                            .then((value) => Navigator.pushNamedAndRemoveUntil(
+                                context, CalcForm.id, (route) => false));
                       } else {
-                        Scaffold.of(context).showSnackBar(new SnackBar(
-                            content: new Text(
-                                "Couldn't import csv. Please try again!")));
-                        print("Error with import");
+                        Fluttertoast.showToast(
+                            msg:
+                                "Error: Couldn't import CSV. Make sure it is valid.",
+                            toastLength: Toast.LENGTH_SHORT);
                       }
                     },
                     style: ButtonStyle(
@@ -96,12 +100,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<bool> _pickFile() async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      File file = File(result.files.single.path);
-      DataHelper dataHelper = new DataHelper();
-      return await dataHelper.CreateNewCSV(file.path);
-    }
+    try {
+      if (result != null) {
+        File file = File(result.files.single.path);
+        DataHelper dataHelper = new DataHelper();
+        return await dataHelper.CreateNewCSV(file.path);
+      }
+    } catch (e) {}
     return false;
   }
 }

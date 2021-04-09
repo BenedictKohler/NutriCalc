@@ -14,7 +14,6 @@ class DataHelper {
   Future<bool> CreateNewCSV(String path) async {
     if (_documents == null)
       _documents = await getApplicationDocumentsDirectory();
-
     File file = new File(path);
     file.open(mode: FileMode.append);
     String textData = "";
@@ -23,6 +22,8 @@ class DataHelper {
     } catch (e) {
       return false;
     }
+    if (textData == "")
+      return false; // Assume that if its not empty they uploaded a valid file
 
     File newFile = new File('${_documents.path}/data.csv');
     newFile.open(mode: FileMode.append);
@@ -107,4 +108,3 @@ class DataHelper {
     await file.writeAsString(csvString);
   }
 }
-
