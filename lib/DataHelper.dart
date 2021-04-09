@@ -9,6 +9,31 @@ import 'package:path_provider/path_provider.dart';
 class DataHelper {
   Directory _documents;
 
+  Future<bool> CreateNewCSV(String path) async {
+    if (_documents == null)
+      _documents = await getApplicationDocumentsDirectory();
+
+    File file = new File(path);
+    file.open(mode: FileMode.append);
+    String textData = "";
+    try {
+      textData = file.readAsStringSync();
+    } catch (e) {
+      return false;
+    }
+
+    File newFile = new File('${_documents.path}/data.csv');
+    newFile.open(mode: FileMode.append);
+
+    try {
+      await newFile.writeAsString(textData, flush: true);
+    } catch (e) {
+      return false;
+    }
+
+    return true;
+  }
+
   /* Writes the data to file on users phone if not already there
      and then gets text data into list and returns it */
   Future<List<List<dynamic>>> GetDataList() async {

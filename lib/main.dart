@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nutri_calc/TempScreen.dart';
 import 'AddFormulaScreen.dart';
 import 'CalcForm.dart';
 import 'HomeScreen.dart';
@@ -19,7 +18,6 @@ class MyApp extends StatelessWidget {
         AddFormulaScreen.id: (context) => AddFormulaScreen(),
         CalcForm.id: (context) => CalcForm(),
         SettingsScreen.id: (context) => SettingsScreen(),
-        TempScreen.id: (context) => TempScreen()
       },
     );
   }
