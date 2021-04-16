@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:nutri_calc/AddFormulaScreen.dart';
 import 'package:nutri_calc/DataHelper.dart';
 import 'package:nutri_calc/SettingsScreen.dart';
-import 'package:pdf/pdf.dart';
+import 'package:nutri_calc/report_pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:pdf/pdf.dart';
+import 'dart:io';
+// import 'package:pdf/widgets.dart' ;
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -242,6 +246,7 @@ class _CalcForm extends State<CalcForm> {
                       onPressed: () {
                         if (_key.currentState.validate())
                           print('Calculating...');
+                          reportView(context, null);
                       },
                       style: ButtonStyle(
                         backgroundColor:
@@ -280,11 +285,6 @@ class _CalcForm extends State<CalcForm> {
                 ),
               ),
             ),
-            Expanded(
-               child: Container(
-                 child: SfPdfViewer.file(pdfFile),
-               )
-            )
           ],
         ));
   }
@@ -330,20 +330,12 @@ class _CalcForm extends State<CalcForm> {
     return DateTime.now().toString() + "_" + selectedDrink ?? " ";
   }
 
-  // Future<void> buildPDF() async {
-  //   pw.Page(
-  //       pageFormat: PdfPageFormat.a4,
-  //       build: (pw.Context context) {
-  //         return pw.Center(
-  //           child: Text("test") // ?
-  //           // TODO: Build table here
-  //         ); // Center
-  //       });
-  // }
 
   List<dynamic> calculate(String key) {
 
 
     throw new Exception("Not Implemented");
   }
+
+
 }
