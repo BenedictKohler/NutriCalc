@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
 import 'package:nutri_calc/AddFormulaScreen.dart';
+import 'package:nutri_calc/CalcForm.dart';
+import 'package:nutri_calc/DataHelper.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const id = 'settingsscreen';
@@ -46,9 +49,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Navigator.pushNamed(context, AddFormulaScreen.id);
                     },
                     style: ButtonStyle(
-                      backgroundColor:
-                      MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
                           return Colors.red; // Use the component's default.
                         },
                       ),
@@ -67,21 +69,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Text('Import new CSV'),
                       ],
                     ),
-                    onPressed: () {
-                      print('here');
-                      _pickFile();
+                    onPressed: () async {
+                      if (await _pickFile()) {
+                        Fluttertoast.showToast(
+                                msg: "Successfully imported CSV",
+                                toastLength: Toast.LENGTH_SHORT)
+                            .then((value) => Navigator.pushNamedAndRemoveUntil(
+                                context, CalcForm.id, (route) => false));
+                      } else {
+                        Fluttertoast.showToast(
+                            msg:
+                                "Error: Couldn't import CSV. Make sure it is valid.",
+                            toastLength: Toast.LENGTH_SHORT);
+                      }
                     },
                     style: ButtonStyle(
-
-                      backgroundColor:
-                      MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
                           return Colors.red; // Use the component's default.
                         },
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -89,15 +98,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ));
   }
 
-  Future<String> _pickFile() async{
-    print('here');
+  Future<bool> _pickFile() async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
-
-    if(result != null) {
-      File file = File(result.files.single.path);
-    } else {
-      return null;
-    }
-    // call data helper to update csv
+    try {
+      if (result != null) {
+        File file = File(result.files.single.path);
+        DataHelper dataHelper = new DataHelper();
+        return await dataHelper.CreateNewCSV(file.path);
+      }
+    } catch (e) {}
+    return false;
   }
 }
