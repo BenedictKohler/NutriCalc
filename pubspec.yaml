@@ -20,7 +20,9 @@ dependencies:
   flutter_full_pdf_viewer: ^1.0.6
   flutter_pdfview: ^1.0.4
   syncfusion_flutter_pdfviewer:
+  open_file:
   shared_preferences: ^2.0.5
+  syncfusion_flutter_pdf: ^19.1.56-beta
 
 dev_dependencies:
   flutter_test:

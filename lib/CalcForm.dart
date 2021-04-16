@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nutri_calc/AddFormulaScreen.dart';
 import 'package:nutri_calc/DataHelper.dart';
 import 'package:nutri_calc/SettingsScreen.dart';
+import 'package:nutri_calc/report_pdf.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -36,7 +37,6 @@ class _CalcForm extends State<CalcForm> {
   HashMap<String, List<dynamic>> _csvData;
   DataHelper _dataHelper;
 
-
   String selectedDrink = "";
   int ageEntered;
   double quantityEntered;
@@ -48,7 +48,6 @@ class _CalcForm extends State<CalcForm> {
   var pdf = pw.Document();
 
   File pdfFile = null;
-
 
   static var _sexList = ["Male", "Female"];
   // static var drinks = ["Drink 1", "Drink 2", "Drink 3"];
@@ -65,8 +64,10 @@ class _CalcForm extends State<CalcForm> {
   }
 
   void loadCSV() async {
-    List<List<dynamic>> csvList = await _dataHelper.GetDataList(); // Get list of lists of csv data
-    _csvData = _dataHelper.GetDataMap(csvList); // Convert list of lists to hashma
+    List<List<dynamic>> csvList =
+        await _dataHelper.GetDataList(); // Get list of lists of csv data
+    _csvData =
+        _dataHelper.GetDataMap(csvList); // Convert list of lists to hashma
     _sexDropDownItems = getDropDownItems(_sexList);
     _drinkDropDownItems = getDropDownItems(_csvData.keys);
 
@@ -244,16 +245,18 @@ class _CalcForm extends State<CalcForm> {
                       ),
                       onPressed: () {
                         if (_key.currentState.validate()) {
-                          double mult = quantityEntered/_csvData[selectedDrink][1];
+                          double mult =
+                              quantityEntered / _csvData[selectedDrink][1];
                           List out = [];
-                          _csvData[selectedDrink].sublist(1).forEach((i){
+                          _csvData[selectedDrink].sublist(1).forEach((i) {
                             if (i == "N/A")
                               out.add("N/A");
-                            else if (i*mult % 1 == 0 )
-                              out.add((i*mult).round());
+                            else if (i * mult % 1 == 0)
+                              out.add((i * mult).round());
                             else
-                              out.add(i*mult);
+                              out.add(i * mult);
                           });
+                          reportView(context, null);
                           print(out);
                         }
                       },
@@ -278,8 +281,8 @@ class _CalcForm extends State<CalcForm> {
                       ),
                       style: ButtonStyle(
                         backgroundColor:
-                        MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
                             return Colors.red; // Use the component's default.
                           },
                         ),
@@ -287,18 +290,17 @@ class _CalcForm extends State<CalcForm> {
                       onPressed: () =>
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => AddFormulaScreen(
-                                csvData: _csvData,
-                              ))),
+                                    csvData: _csvData,
+                                  ))),
                     ),
                   ],
                 ),
               ),
             ),
             Expanded(
-               child: Container(
-                 child: SfPdfViewer.file(pdfFile),
-               )
-            )
+                child: Container(
+              child: SfPdfViewer.file(pdfFile),
+            ))
           ],
         ));
   }
@@ -356,8 +358,6 @@ class _CalcForm extends State<CalcForm> {
   // }
 
   List<dynamic> calculate(String key) {
-
-
     throw new Exception("Not Implemented");
   }
 }
