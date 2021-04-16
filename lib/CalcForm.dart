@@ -7,6 +7,7 @@ import 'package:nutri_calc/SettingsScreen.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -28,6 +29,8 @@ class CalcForm extends StatefulWidget {
 class _CalcForm extends State<CalcForm> {
 // The Flutter key to point to the Form
   final GlobalKey<FormState> _key = GlobalKey();
+
+  // Future<SharedPreferences> prefs = getSP();
 
   bool _isDataLoaded;
   HashMap<String, List<dynamic>> _csvData;
