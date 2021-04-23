@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nutri_calc/TempPdfCreator.dart';
 import 'AddFormulaScreen.dart';
 import 'CalcForm.dart';
 import 'HomeScreen.dart';
@@ -13,13 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: TempPdfCreator.id,
+      initialRoute: CalcForm.id,
       routes: {
         HomeScreen.id: (context) => HomeScreen(),
         AddFormulaScreen.id: (context) => AddFormulaScreen(),
         CalcForm.id: (context) => CalcForm(),
         SettingsScreen.id: (context) => SettingsScreen(),
-        TempPdfCreator.id: (context) => TempPdfCreator(),
       },
     );
   }

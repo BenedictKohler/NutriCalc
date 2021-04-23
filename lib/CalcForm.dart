@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nutri_calc/AddFormulaScreen.dart';
 import 'package:nutri_calc/DataHelper.dart';
 import 'package:nutri_calc/SettingsScreen.dart';
+import 'package:nutri_calc/TempPdfCreator.dart';
 import 'package:nutri_calc/report_pdf.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -256,8 +257,7 @@ class _CalcForm extends State<CalcForm> {
                             else
                               out.add(i * mult);
                           });
-                          reportView(context, null);
-                          print(out);
+                          createPDF(out);
                         }
                       },
                       style: ButtonStyle(
