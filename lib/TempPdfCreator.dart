@@ -7,7 +7,7 @@ Future<void> createPDF(String dName, List<dynamic> drinkVals) async {
   final page = document.pages.add();
 
   page.graphics.drawString(
-      'Drink Name: ' + dName + " " + drinkVals[0].toSring() + "mL",
+      'Drink Name: ' + dName + " " + drinkVals[0].toString() + "mL",
       PdfStandardFont(PdfFontFamily.helvetica, 30));
 
   PdfGrid grid = PdfGrid();

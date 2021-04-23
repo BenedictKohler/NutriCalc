@@ -255,7 +255,7 @@ class _CalcForm extends State<CalcForm> {
                             else if (i * mult % 1 == 0)
                               out.add((i * mult).round());
                             else
-                              out.add(i * mult);
+                              out.add(double.parse((i * mult).toStringAsFixed(2)));
                           });
                           print(out);
                           createPDF(selectedDrink, out);
