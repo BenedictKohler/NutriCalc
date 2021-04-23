@@ -257,10 +257,8 @@ class _CalcForm extends State<CalcForm> {
                             else
                               out.add(i * mult);
                           });
-                          print(out);
                           createPDF(selectedDrink, out);
                         }
-                        print("OnPressed was called");
                       },
                       style: ButtonStyle(
                         backgroundColor:
@@ -345,20 +343,5 @@ class _CalcForm extends State<CalcForm> {
 
   String getFileName() {
     return DateTime.now().toString() + "_" + selectedDrink ?? " ";
-  }
-
-  // Future<void> buildPDF() async {
-  //   pw.Page(
-  //       pageFormat: PdfPageFormat.a4,
-  //       build: (pw.Context context) {
-  //         return pw.Center(
-  //           child: Text("test") // ?
-  //           // TODO: Build table here
-  //         ); // Center
-  //       });
-  // }
-
-  List<dynamic> calculate(String key) {
-    throw new Exception("Not Implemented");
   }
 }
