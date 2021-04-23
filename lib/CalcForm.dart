@@ -257,8 +257,10 @@ class _CalcForm extends State<CalcForm> {
                             else
                               out.add(i * mult);
                           });
-                          createPDF(out);
+                          print(out);
+                          createPDF(selectedDrink, out);
                         }
+                        print("OnPressed was called");
                       },
                       style: ButtonStyle(
                         backgroundColor:
@@ -318,7 +320,6 @@ class _CalcForm extends State<CalcForm> {
   static List<DropdownMenuItem<String>> getDropDownItems(dynamic drinks) {
     List<DropdownMenuItem<String>> items = new List<DropdownMenuItem<String>>();
     for (var drink in drinks) {
-      debugPrint(drink);
       items.add(new DropdownMenuItem(child: new Text(drink), value: drink));
     }
     return items;
