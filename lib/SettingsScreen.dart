@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:nutri_calc/AddFormulaScreen.dart';
 import 'package:nutri_calc/CalcForm.dart';
 import 'package:nutri_calc/DataHelper.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const id = 'settingsscreen';
@@ -86,6 +88,45 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                         (Set<MaterialState> states) {
+                          return Colors.red; // Use the component's default.
+                        },
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.import_export,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        Text('Export CSV'),
+                      ],
+                    ),
+                    onPressed: () async {
+                      // if (await _pickFile()) {
+                      //   Fluttertoast.showToast(
+                      //       msg: "Successfully imported CSV",
+                      //       toastLength: Toast.LENGTH_SHORT)
+                      //       .then((value) => Navigator.pushNamedAndRemoveUntil(
+                      //       context, CalcForm.id, (route) => false));
+                      // } else {
+                      //   Fluttertoast.showToast(
+                      //       msg:
+                      //       "Error: Couldn't import CSV. Make sure it is valid.",
+                      //       toastLength: Toast.LENGTH_SHORT);
+                      // }
+                      Directory _documents = await getApplicationDocumentsDirectory();
+                      File file = new File('${_documents.path}/data.csv');
+                      // file.open(mode: FileMode.read);
+                      OpenFile.open("${_documents.path}/data.csv");
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
                           return Colors.red; // Use the component's default.
                         },
                       ),
