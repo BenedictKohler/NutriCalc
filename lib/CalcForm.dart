@@ -249,14 +249,21 @@ class _CalcForm extends State<CalcForm> {
                           double mult =
                               quantityEntered / _csvData[selectedDrink][1];
                           List out = [];
-                          _csvData[selectedDrink].sublist(1).forEach((i) {
-                            if (i == "N/A")
-                              out.add("N/A");
-                            else if (i * mult % 1 == 0)
-                              out.add((i * mult).round());
-                            else
-                              out.add(double.parse((i * mult).toStringAsFixed(2)));
-                          });
+                          try {
+                            _csvData[selectedDrink].sublist(1).forEach((i) {
+                              print(i.runtimeType);
+                              print(i);
+                              if (i == "N/A")
+                                out.add("N/A");
+                              else if (i * mult % 1 == 0)
+                                out.add((i * mult).round());
+                              else
+                                out.add((i * mult).toStringAsFixed(2));
+                            });
+                          } catch (err) {
+                            print(err);
+                            print("Error in the input");
+                          }
                           createPDF(selectedDrink, out);
                         }
                       },
