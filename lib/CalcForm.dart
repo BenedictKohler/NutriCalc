@@ -341,7 +341,6 @@ class _CalcForm extends State<CalcForm> {
     try {
       await file.writeAsBytes(await pdf.save());
     } catch (Exception) {
-      print("Failed to save");
       return null;
     }
     pdfFile = file;
