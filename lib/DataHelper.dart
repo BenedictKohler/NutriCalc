@@ -42,16 +42,18 @@ class DataHelper {
   Future<List<List<dynamic>>> GetDataList() async {
     String textData = "";
     _documents = await getApplicationDocumentsDirectory();
-    File file = new File('${_documents.path}/data.csv');
-    file.open(mode: FileMode.append);
     if (!await IsPopulated()) {
       String data = await rootBundle.loadString('assets/data.csv');
       try {
+        File file = new File('${_documents.path}/data.csv');
+        file.open(mode: FileMode.append);
         file = await file.writeAsString(data, flush: true);
       } catch (e) {}
     }
 
     try {
+      File file = new File('${_documents.path}/data.csv');
+      file.open(mode: FileMode.append);
       textData = file.readAsStringSync();
     } catch (e) {}
 
