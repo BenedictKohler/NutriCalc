@@ -251,8 +251,8 @@ class _CalcForm extends State<CalcForm> {
                           List out = [];
                           try {
                             _csvData[selectedDrink].sublist(1).forEach((i) {
-                              print(i.runtimeType);
-                              print(i);
+                              // print(i.runtimeType);
+                              // print(i);
                               if (i == "N/A")
                                 out.add("N/A");
                               else if (i * mult % 1 == 0)
@@ -264,6 +264,7 @@ class _CalcForm extends State<CalcForm> {
                             print(err);
                             print("Error in the input");
                           }
+                          print(out);
                           createPDF(selectedDrink, out);
                         }
                       },
@@ -349,6 +350,8 @@ class _CalcForm extends State<CalcForm> {
   }
 
   String getFileName() {
-    return DateTime.now().toString() + "_" + selectedDrink ?? " ";
+    String x =  DateTime.now().toString() + "_" + selectedDrink ?? " ";
+    print(x);
+    return x;
   }
 }

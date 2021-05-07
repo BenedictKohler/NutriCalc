@@ -16,6 +16,7 @@ class AddFormulaScreen extends StatefulWidget {
 
 class _AddFormulaScreenState extends State<AddFormulaScreen> {
   final _drinkName = TextEditingController();
+  final _volume = TextEditingController();
   final _v1 = TextEditingController();
   final _v2 = TextEditingController();
   final _v3 = TextEditingController();
@@ -55,6 +56,7 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
   final _v37 = TextEditingController();
   final _v38 = TextEditingController();
   final _v39 = TextEditingController();
+  final _v40 = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -90,6 +92,7 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       MyTextInputBox("* Required", 'Formula Name:', _drinkName),
+                      MyTextInputBox("* Required", 'Volume (mL):', _volume),
                       MyTextInputBox("* Required", 'Calories:', _v1),
                       MyTextInputBox("* Required", 'Total fat (g):', _v2),
                       MyTextInputBox("* Required", 'Total carbs (g):', _v3),
@@ -117,22 +120,22 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
                       MyTextInputBox("* Required", 'inositol(mg):', _v22),
                       MyTextInputBox("* Required", 'sodium (mg):', _v23),
                       MyTextInputBox("* Required", 'calcium (mg):', _v24),
-                      MyTextInputBox("* Required", 'potassium (mg):', _v24),
-                      MyTextInputBox("* Required", 'chloride (mg):', _v25),
-                      MyTextInputBox("* Required", 'phosphorus (mg):', _v26),
-                      MyTextInputBox("* Required", 'magnesium (mg):', _v27),
-                      MyTextInputBox("* Required", 'iodine (mcg):', _v28),
-                      MyTextInputBox("* Required", 'manganese (mg):', _v29),
-                      MyTextInputBox("* Required", 'copper (mg):', _v30),
-                      MyTextInputBox("* Required", 'zinc (mg):', _v31),
-                      MyTextInputBox("* Required", 'iron (mg):', _v32),
-                      MyTextInputBox("* Required", 'selenium (mcg):', _v33),
-                      MyTextInputBox("* Required", 'chromium (mcg):', _v34),
-                      MyTextInputBox("* Required", 'molybdenum (mcg):', _v35),
-                      MyTextInputBox("* Required", 'choline (mg):', _v36),
-                      MyTextInputBox("* Required", 'linoleic acid (mg):', _v37),
-                      MyTextInputBox("* Required", 'Beta-carotene (mg):', _v38),
-                      MyTextInputBox("* Required", 'Taurine (mg):', _v39),
+                      MyTextInputBox("* Required", 'potassium (mg):', _v25),
+                      MyTextInputBox("* Required", 'chloride (mg):', _v26),
+                      MyTextInputBox("* Required", 'phosphorus (mg):', _v27),
+                      MyTextInputBox("* Required", 'magnesium (mg):', _v28),
+                      MyTextInputBox("* Required", 'iodine (mcg):', _v29),
+                      MyTextInputBox("* Required", 'manganese (mg):', _v30),
+                      MyTextInputBox("* Required", 'copper (mg):', _v31),
+                      MyTextInputBox("* Required", 'zinc (mg):', _v32),
+                      MyTextInputBox("* Required", 'iron (mg):', _v33),
+                      MyTextInputBox("* Required", 'selenium (mcg):', _v34),
+                      MyTextInputBox("* Required", 'chromium (mcg):', _v35),
+                      MyTextInputBox("* Required", 'molybdenum (mcg):', _v36),
+                      MyTextInputBox("* Required", 'choline (mg):', _v37),
+                      MyTextInputBox("* Required", 'linoleic acid (mg):', _v38),
+                      MyTextInputBox("* Required", 'Beta-carotene (mg):', _v39),
+                      MyTextInputBox("* Required", 'Taurine (mg):', _v40),
                       ElevatedButton(
                         child: Row(
                           children: <Widget>[
@@ -164,6 +167,7 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
                           if (!ContainsDrink(_drinkName.text)) {
                             List<String> newDrink = [
                               _drinkName.text,
+                              _volume.text,
                               _v1.text,
                               _v2.text,
                               _v3.text,
@@ -202,7 +206,8 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
                               _v36.text,
                               _v37.text,
                               _v38.text,
-                              _v39.text
+                              _v39.text,
+                              _v40.text
                             ];
                             widget.csvData
                                 .putIfAbsent(_drinkName.text, () => newDrink);
