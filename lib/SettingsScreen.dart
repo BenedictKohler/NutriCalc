@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:nutri_calc/AddFormulaScreen.dart';
 import 'package:nutri_calc/CalcForm.dart';
 import 'package:nutri_calc/DataHelper.dart';
+import 'package:nutri_calc/mobile.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
 
@@ -32,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: <Widget>[
             Expanded(
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   ElevatedButton(
                     child: Row(
@@ -107,26 +108,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ],
                     ),
                     onPressed: () async {
-                      // if (await _pickFile()) {
-                      //   Fluttertoast.showToast(
-                      //       msg: "Successfully imported CSV",
-                      //       toastLength: Toast.LENGTH_SHORT)
-                      //       .then((value) => Navigator.pushNamedAndRemoveUntil(
-                      //       context, CalcForm.id, (route) => false));
-                      // } else {
-                      //   Fluttertoast.showToast(
-                      //       msg:
-                      //       "Error: Couldn't import CSV. Make sure it is valid.",
-                      //       toastLength: Toast.LENGTH_SHORT);
-                      // }
-                      Directory _documents = await getApplicationDocumentsDirectory();
-                      File file = new File('${_documents.path}/data.csv');
-                      // file.open(mode: FileMode.read);
-                      OpenFile.open("${_documents.path}/data.csv");
+                      // Do a file downlaod by writing current csv to external file location
+                      Directory _documents =
+                          await getApplicationDocumentsDirectory();
+                      File originalFile =
+                          new File('${_documents.path}/data.csv');
+
+                      final path = (await getExternalStorageDirectory()).path;
+                      final file = File('$path/data.csv');
+                      List<int> bytes = originalFile.readAsBytesSync();
+
+                      await file.writeAsBytes(bytes, flush: true);
+                      OpenFile.open('$path/data.csv');
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
+                        (Set<MaterialState> states) {
                           return Colors.red; // Use the component's default.
                         },
                       ),

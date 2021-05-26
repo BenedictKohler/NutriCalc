@@ -5,11 +5,8 @@ import 'package:nutri_calc/AddFormulaScreen.dart';
 import 'package:nutri_calc/DataHelper.dart';
 import 'package:nutri_calc/SettingsScreen.dart';
 import 'package:nutri_calc/TempPdfCreator.dart';
-import 'package:nutri_calc/report_pdf.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -70,7 +67,7 @@ class _CalcForm extends State<CalcForm> {
     _csvData =
         _dataHelper.GetDataMap(csvList); // Convert list of lists to hashma
     _sexDropDownItems = getDropDownItems(_sexList);
-    _drinkDropDownItems = getDropDownItems(_csvData.keys);
+    _drinkDropDownItems = getDropDownItems(_csvData.keys.toList());
 
     setState(() {
       _isDataLoaded = true; // data is loaded
@@ -313,20 +310,22 @@ class _CalcForm extends State<CalcForm> {
         ));
   }
 
-  // void _dropDownChanged(SearchType val) {
-  //   setState(() => _searchForm['searchType'] = val);
-  // }
-
   void showAlert(BuildContext context, String text) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(content: Text(text)));
   }
 
-  static List<DropdownMenuItem<String>> getDropDownItems(dynamic drinks) {
+  static List<DropdownMenuItem<String>> getDropDownItems(List<dynamic> drinks) {
     List<DropdownMenuItem<String>> items = new List<DropdownMenuItem<String>>();
+    drinks.sort();
     for (var drink in drinks) {
-      items.add(new DropdownMenuItem(child: new Text(drink), value: drink));
+      items.add(new DropdownMenuItem(
+          child: new Text(
+            drink,
+            style: TextStyle(fontSize: 13),
+          ),
+          value: drink));
     }
     return items;
   }
@@ -349,7 +348,7 @@ class _CalcForm extends State<CalcForm> {
   }
 
   String getFileName() {
-    String x =  DateTime.now().toString() + "_" + selectedDrink ?? " ";
+    String x = DateTime.now().toString() + "_" + selectedDrink ?? " ";
     print(x);
     return x;
   }

@@ -70,7 +70,6 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
 
   @override
   void initState() {
-    //
     super.initState();
   }
 
@@ -158,6 +157,10 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
                           ),
                         ),
                         onPressed: () async {
+                          // Make sure all inputs are valid
+                          if (!_formKey.currentState.validate()) {
+                            return;
+                          }
                           if (_drinkName.text.isEmpty) {
                             Fluttertoast.showToast(
                                 msg: 'Missing element of the form',
