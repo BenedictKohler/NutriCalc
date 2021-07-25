@@ -3,21 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:nutri_calc/AddFormulaScreen.dart';
 import 'package:nutri_calc/DataHelper.dart';
+import 'package:nutri_calc/DailyDataHelper.dart';
 import 'package:nutri_calc/SettingsScreen.dart';
 import 'package:nutri_calc/TempPdfCreator.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-
-void main() {
-  runApp(MaterialApp(
-      title: "NutriCalc",
-      home: CalcForm(),
-      theme: ThemeData(
-        // Define the default brightness and colors.
-        brightness: Brightness.dark,
-        primarySwatch: Colors.red,
-      )));
-}
 
 class CalcForm extends StatefulWidget {
   static const id = 'calcform';
@@ -33,7 +23,9 @@ class _CalcForm extends State<CalcForm> {
 
   bool _isDataLoaded;
   HashMap<String, List<dynamic>> _csvData;
+  List<List<dynamic>> _dailyData;
   DataHelper _dataHelper;
+  DailyDataHelper _dailyDataHelper;
 
   String selectedDrink = "";
   int ageEntered;
@@ -58,14 +50,20 @@ class _CalcForm extends State<CalcForm> {
     super.initState();
     _isDataLoaded = false;
     _dataHelper = new DataHelper();
+    _dailyDataHelper = new DailyDataHelper();
     loadCSV();
+    loadDailyCSV();
+  }
+
+  void loadDailyCSV() async {
+    _dailyData = await _dailyDataHelper.GetDataList(); // Get list of lists of csv data
   }
 
   void loadCSV() async {
     List<List<dynamic>> csvList =
         await _dataHelper.GetDataList(); // Get list of lists of csv data
     _csvData =
-        _dataHelper.GetDataMap(csvList); // Convert list of lists to hashma
+        _dataHelper.GetDataMap(csvList); // Convert list of lists to hashmap
     _sexDropDownItems = getDropDownItems(_sexList);
     _drinkDropDownItems = getDropDownItems(_csvData.keys.toList());
 
@@ -92,7 +90,7 @@ class _CalcForm extends State<CalcForm> {
               icon: const Icon(Icons.settings),
               tooltip: 'Settings',
               onPressed: () {
-                navigateToSettings();
+                Navigator.pushNamed(context, SettingsScreen.id);
               },
             ),
           ],
@@ -248,8 +246,6 @@ class _CalcForm extends State<CalcForm> {
                           List out = [];
                           try {
                             _csvData[selectedDrink].sublist(1).forEach((i) {
-                              // print(i.runtimeType);
-                              // print(i);
                               if (i == "N/A")
                                 out.add("N/A");
                               else if (i * mult % 1 == 0)
@@ -261,8 +257,20 @@ class _CalcForm extends State<CalcForm> {
                             print(err);
                             print("Error in the input");
                           }
+                          List<dynamic> dVals;
+                          if (ageEntered < 0.5) dVals = _dailyData.elementAt(1);
+                          else if (ageEntered < 1) dVals = _dailyData.elementAt(2);
+                          else if (ageEntered <= 3) dVals = _dailyData.elementAt(3);
+                          else if (ageEntered <= 8) dVals = _dailyData.elementAt(4);
+                          else if (ageEntered <= 13 && selectedSex == "Male") dVals = _dailyData.elementAt(5);
+                          else if (ageEntered <= 18 && selectedSex == "Male") dVals = _dailyData.elementAt(6);
+                          else if (selectedSex == "Male") dVals = _dailyData.elementAt(7);
+                          else if (ageEntered <= 13 && selectedSex == "Female") dVals = _dailyData.elementAt(8);
+                          else if (ageEntered <= 18 && selectedSex == "Female") dVals = _dailyData.elementAt(9);
+                          else dVals = _dailyData.elementAt(10);
                           print(out);
-                          createPDF(selectedDrink, out);
+                          print(dVals);
+                          createPDF(selectedDrink, out, dVals);
                         }
                       },
                       style: ButtonStyle(
@@ -328,10 +336,6 @@ class _CalcForm extends State<CalcForm> {
           value: drink));
     }
     return items;
-  }
-
-  void navigateToSettings() {
-    Navigator.pushNamed(context, SettingsScreen.id);
   }
 
   Future<bool> getPDF() async {

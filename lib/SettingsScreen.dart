@@ -33,13 +33,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: <Widget>[
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
+                  SizedBox(height: 40),
                   ElevatedButton(
                     child: Row(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(20.0),
                           child: Icon(
                             Icons.add,
                             color: Colors.black87,
@@ -59,11 +59,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 40),
                   ElevatedButton(
                     child: Row(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(20.0),
                           child: Icon(
                             Icons.table_rows_sharp,
                             color: Colors.black87,
@@ -94,11 +95,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 40),
                   ElevatedButton(
                     child: Row(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(20.0),
                           child: Icon(
                             Icons.import_export,
                             color: Colors.black87,
