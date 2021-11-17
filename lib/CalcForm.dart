@@ -16,31 +16,21 @@ class CalcForm extends StatefulWidget {
 }
 
 class _CalcForm extends State<CalcForm> {
-// The Flutter key to point to the Form
+
   final GlobalKey<FormState> _key = GlobalKey();
-
-  // Future<SharedPreferences> prefs = getSP();
-
-  bool _isDataLoaded;
-  HashMap<String, List<dynamic>> _csvData;
-  List<List<dynamic>> _dailyData;
   DataHelper _dataHelper;
   DailyDataHelper _dailyDataHelper;
-
+  HashMap<String, List<dynamic>> _csvData;
+  List<List<dynamic>> _dailyData;
+  bool _isDataLoaded;
   String selectedDrink = "";
   int ageEntered;
   double quantityEntered;
-
   String selectedSex = "";
-
   String _fileName = "";
-
-  var pdf = pw.Document();
-
-  File pdfFile = null;
-
-  static var _sexList = ["Male", "Female"];
-  // static var drinks = ["Drink 1", "Drink 2", "Drink 3"];
+  var pdf;
+  File pdfFile;
+  var _sexList;
 
   List<DropdownMenuItem<String>> _sexDropDownItems;
   List<DropdownMenuItem<String>> _drinkDropDownItems;
@@ -48,6 +38,8 @@ class _CalcForm extends State<CalcForm> {
   @override
   Future<void> initState() {
     super.initState();
+    pdf = pw.Document();
+    _sexList = ["Male", "Female"];
     _isDataLoaded = false;
     _dataHelper = new DataHelper();
     _dailyDataHelper = new DailyDataHelper();
@@ -60,22 +52,19 @@ class _CalcForm extends State<CalcForm> {
   }
 
   void loadCSV() async {
-    List<List<dynamic>> csvList =
-        await _dataHelper.GetDataList(); // Get list of lists of csv data
-    _csvData =
-        _dataHelper.GetDataMap(csvList); // Convert list of lists to hashmap
+    List<List<dynamic>> csvList = await _dataHelper.GetDataList(); // Get list of lists of csv data
+    _csvData = _dataHelper.GetDataMap(csvList); // Convert list of lists to hashmap
     _sexDropDownItems = getDropDownItems(_sexList);
     _drinkDropDownItems = getDropDownItems(_csvData.keys.toList());
 
     setState(() {
-      _isDataLoaded = true; // data is loaded
+      _isDataLoaded = true;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // backgroundColor: Colors.red.shade50.withOpacity(0.9),
         appBar: AppBar(
           title: new Text(
             "NutriCalc",
@@ -104,7 +93,6 @@ class _CalcForm extends State<CalcForm> {
                 child: ListView(
                   children: <Widget>[
                     ListTile(
-                      // tileColor: Colors.red.withOpacity((0.1)),
                       leading: const Icon(Icons.local_drink_rounded,
                           color: Colors.red),
                       title: new DropdownButtonFormField<String>(
@@ -241,8 +229,7 @@ class _CalcForm extends State<CalcForm> {
                       ),
                       onPressed: () {
                         if (_key.currentState.validate()) {
-                          double mult =
-                              quantityEntered / _csvData[selectedDrink][1];
+                          double mult = quantityEntered / _csvData[selectedDrink][1];
                           List out = [];
                           try {
                             _csvData[selectedDrink].sublist(1).forEach((i) {
@@ -268,8 +255,6 @@ class _CalcForm extends State<CalcForm> {
                           else if (ageEntered <= 13 && selectedSex == "Female") dVals = _dailyData.elementAt(8);
                           else if (ageEntered <= 18 && selectedSex == "Female") dVals = _dailyData.elementAt(9);
                           else dVals = _dailyData.elementAt(10);
-                          print(out);
-                          print(dVals);
                           createPDF(selectedDrink, out, dVals);
                         }
                       },
@@ -287,7 +272,7 @@ class _CalcForm extends State<CalcForm> {
                     ),
                     ElevatedButton(
                       child: Text(
-                        "Add new Formula",
+                        "Add New Formula",
                         style: TextStyle(
                           fontFamily: "Josefin Sans",
                         ),

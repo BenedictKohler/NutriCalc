@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
@@ -33,7 +32,6 @@ class DailyDataHelper {
 
   // Checks to see if file on users phone has got data already
   Future<bool> IsPopulated() async {
-    //return Future.delayed(Duration(milliseconds: 20)).then((value) => false);
     if (_documents == null)
       _documents = await getApplicationDocumentsDirectory();
     File file = new File('${_documents.path}/daily.csv');

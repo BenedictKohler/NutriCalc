@@ -63,7 +63,7 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
   // Makes sure that the user is not trying to overwrite an existing drink
   bool ContainsDrink(String drink) {
     for (String d in widget.csvData.keys) {
-      if (drink == d) return true;
+      if (drink.toLowerCase() == d.toLowerCase()) return true;
     }
     return false;
   }
@@ -106,16 +106,13 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
                       MyTextInputBox("* Required", 'Vit E IU:', _v12),
                       MyTextInputBox("* Required", 'Vit K (mcg):', _v13),
                       MyTextInputBox("* Required", 'folic acid (mcg):', _v14),
-                      MyTextInputBox(
-                          "* Required", 'Thiamin/Vit B1 (mg):', _v15),
-                      MyTextInputBox(
-                          "* Required", 'Riboflavin/Vit B2 (mg):', _v16),
+                      MyTextInputBox("* Required", 'Thiamin/Vit B1 (mg):', _v15),
+                      MyTextInputBox("* Required", 'Riboflavin/Vit B2 (mg):', _v16),
                       MyTextInputBox("* Required", 'Vit B6 (mg):', _v17),
                       MyTextInputBox("* Required", 'Vit B12 (mcg):', _v18),
                       MyTextInputBox("* Required", 'niacin (mg):', _v19),
                       MyTextInputBox("* Required", 'biotin (mcg):', _v20),
-                      MyTextInputBox(
-                          "* Required", 'pantothenic acid (mg):', _v21),
+                      MyTextInputBox("* Required", 'pantothenic acid (mg):', _v21),
                       MyTextInputBox("* Required", 'inositol(mg):', _v22),
                       MyTextInputBox("* Required", 'sodium (mg):', _v23),
                       MyTextInputBox("* Required", 'calcium (mg):', _v24),
@@ -212,8 +209,7 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
                               _v39.text,
                               _v40.text
                             ];
-                            widget.csvData
-                                .putIfAbsent(_drinkName.text, () => newDrink);
+                            widget.csvData.putIfAbsent(_drinkName.text, () => newDrink);
                             DataHelper dataHelper = new DataHelper();
                             await dataHelper.WriteDataFromHMap(widget.csvData);
                           } else {
@@ -222,8 +218,7 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
                                     'Error: A drink with that name already exists',
                                 toastLength: Toast.LENGTH_SHORT);
                           }
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, CalcForm.id, (route) => false);
+                          Navigator.pushNamedAndRemoveUntil(context, CalcForm.id, (route) => false);
                         },
                       ),
                     ],
@@ -236,8 +231,7 @@ class _AddFormulaScreenState extends State<AddFormulaScreen> {
   }
 }
 
-Widget MyTextInputBox(
-    String validatorVal, String hintText, TextEditingController controller) {
+Widget MyTextInputBox(String validatorVal, String hintText, TextEditingController controller) {
   return Padding(
     padding: EdgeInsets.all(5.0),
     child: TextFormField(

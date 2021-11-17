@@ -3,10 +3,6 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-
-// Errors: Currently removes the top row which could be an issue when trying to write data from hashmap back
 
 class DataHelper {
   Directory _documents;
@@ -63,7 +59,6 @@ class DataHelper {
 
   // Checks to see if file on users phone has got data already
   Future<bool> IsPopulated() async {
-    //return Future.delayed(Duration(milliseconds: 20)).then((value) => false);
     if (_documents == null)
       _documents = await getApplicationDocumentsDirectory();
     File file = new File('${_documents.path}/data.csv');
@@ -75,11 +70,9 @@ class DataHelper {
 
   // Converts a list of lists to a map where the key is the formula name and values are a list of nutrients
   HashMap<String, List<dynamic>> GetDataMap(List<List<dynamic>> data) {
-    HashMap<String, List<dynamic>> hashMap =
-        new HashMap<String, List<dynamic>>();
+    HashMap<String, List<dynamic>> hashMap = new HashMap<String, List<dynamic>>();
     for (int i = 1; i < data.length; i++) {
-      hashMap.putIfAbsent(
-          data.elementAt(i).elementAt(0), () => data.elementAt(i));
+      hashMap.putIfAbsent(data.elementAt(i).elementAt(0), () => data.elementAt(i));
     }
     return hashMap;
   }

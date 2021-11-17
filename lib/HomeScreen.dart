@@ -25,9 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void loadCSV() async {
     List<List<dynamic>> csvList =
-        await _dataHelper.GetDataList(); // Get list of lists of csv data
-    _csvData =
-        _dataHelper.GetDataMap(csvList); // Convert list of lists to hashmap
+    await _dataHelper.GetDataList(); // Get list of lists of csv data
+    _csvData = _dataHelper.GetDataMap(csvList); // Convert list of lists to hashmap
     setState(() {
       _isDataLoaded = true; // data is loaded
     });

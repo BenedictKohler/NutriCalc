@@ -1,4 +1,3 @@
-// import 'package:flutter_example/pdf.dart';
 import 'package:pdf/pdf.dart';
 import 'dart:io';
 import 'package:pdf/widgets.dart';
@@ -11,7 +10,6 @@ reportView(context, output) async {
   final Document pdf = Document();
 
   final String dir = (await getApplicationDocumentsDirectory()).path;
-  print(dir);
   final String path = '$dir/report.pdf';
   final File file = File(path);
   await file.writeAsBytes(pdf.save());

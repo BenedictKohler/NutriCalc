@@ -111,10 +111,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     onPressed: () async {
                       // Do a file downlaod by writing current csv to external file location
-                      Directory _documents =
-                          await getApplicationDocumentsDirectory();
-                      File originalFile =
-                          new File('${_documents.path}/data.csv');
+                      Directory _documents = await getApplicationDocumentsDirectory();
+                      File originalFile = new File('${_documents.path}/data.csv');
 
                       final path = (await getExternalStorageDirectory()).path;
                       final file = File('$path/data.csv');
