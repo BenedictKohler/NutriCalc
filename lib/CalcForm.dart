@@ -115,9 +115,9 @@ class _CalcForm extends State<CalcForm> {
                     const Divider(
                       indent: 80.0,
                       endIndent: 80.0,
-                      thickness: 1.0,
+                      thickness: 0.0,
                       height: 10.0,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                     ListTile(
                       leading: const Icon(Icons.calendar_today_sharp,
@@ -149,9 +149,9 @@ class _CalcForm extends State<CalcForm> {
                     const Divider(
                       indent: 80.0,
                       endIndent: 80.0,
-                      thickness: 1.0,
+                      thickness: 0.0,
                       height: 10.0,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                     ListTile(
                       leading:
@@ -188,7 +188,7 @@ class _CalcForm extends State<CalcForm> {
                       endIndent: 80.0,
                       thickness: 1.0,
                       height: 10.0,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                     ListTile(
                       leading: const Icon(Icons.person_outline_outlined,
@@ -218,7 +218,7 @@ class _CalcForm extends State<CalcForm> {
                       endIndent: 80.0,
                       thickness: 1.0,
                       height: 10.0,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                     ElevatedButton(
                       child: const Text(

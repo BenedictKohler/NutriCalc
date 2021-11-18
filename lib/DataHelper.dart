@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
@@ -53,7 +54,8 @@ class DataHelper {
       textData = file.readAsStringSync();
     } catch (e) {}
 
-    List<List<dynamic>> csvData = const CsvToListConverter().convert(textData);
+    List<List<dynamic>> csvData = convertCSV(textData);
+    // List<List<dynamic>> csvData = const CsvToListConverter().convert(textData);
     return csvData;
   }
 
@@ -75,6 +77,17 @@ class DataHelper {
       hashMap.putIfAbsent(data.elementAt(i).elementAt(0), () => data.elementAt(i));
     }
     return hashMap;
+  }
+
+  List<List<dynamic>> convertCSV(String csv) {
+    LineSplitter ls = new LineSplitter();
+    List<String> lines = ls.convert(csv);
+    List<List<dynamic>> res = new List<List<dynamic>>();
+    for (String row in lines) {
+      List<dynamic> rowList = row.split(",");
+      res.add(rowList);
+    }
+    return res;
   }
 
   // Write csv data back to a file
