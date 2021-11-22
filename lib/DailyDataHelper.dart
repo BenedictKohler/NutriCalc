@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +27,8 @@ class DailyDataHelper {
       textData = file.readAsStringSync();
     } catch (e) {}
 
-    List<List<dynamic>> csvData = const CsvToListConverter().convert(textData);
+    List<List<dynamic>> csvData = convertCSV(textData);
+    // List<List<dynamic>> csvData = const CsvToListConverter().convert(textData);
     return csvData;
   }
 
@@ -41,4 +43,30 @@ class DailyDataHelper {
     return false;
   }
 
+}
+
+List<List<dynamic>> convertCSV(String csv) {
+  LineSplitter ls = new LineSplitter();
+  List<String> lines = ls.convert(csv);
+  List<List<dynamic>> res = new List<List<dynamic>>();
+  // Add headers
+  List<dynamic> rowList = lines.elementAt(0).split(",");
+  res.add(rowList);
+
+  for (int i = 1; i < lines.length; i++) {
+    List<dynamic> rowList = lines.elementAt(i).split(",");
+    List<dynamic> tempList = new List<dynamic>();
+    for (int i = 0; i < rowList.length; i++) {
+      String val = rowList.elementAt(i);
+      try {
+        double num = double.parse(val);
+        tempList.add(num);
+      }
+      catch (e) {
+        tempList.add("ND");
+      }
+    }
+    res.add(tempList);
+  }
+  return res;
 }
