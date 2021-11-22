@@ -83,9 +83,25 @@ class DataHelper {
     LineSplitter ls = new LineSplitter();
     List<String> lines = ls.convert(csv);
     List<List<dynamic>> res = new List<List<dynamic>>();
-    for (String row in lines) {
-      List<dynamic> rowList = row.split(",");
-      res.add(rowList);
+    // Add headers
+    List<dynamic> rowList = lines.elementAt(0).split(",");
+    res.add(rowList);
+
+    for (int i = 1; i < lines.length; i++) {
+      List<dynamic> rowList = lines.elementAt(i).split(",");
+      List<dynamic> tempList = new List<dynamic>();
+      tempList.add(rowList.elementAt(0));
+      for (int i = 1; i < rowList.length; i++) {
+        String val = rowList.elementAt(i);
+        try {
+          double num = double.parse(val);
+          tempList.add(num);
+        }
+        catch (e) {
+          tempList.add("N/A");
+        }
+      }
+      res.add(tempList);
     }
     return res;
   }
